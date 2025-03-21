@@ -201,6 +201,7 @@ Scooby::~Scooby()
 {
 	if(brain_featurewise) delete brain_featurewise;
 	if(brain) 		delete brain;
+	if (brain_nn) delete brain_nn;
 }
 
 void Scooby::print_config()
@@ -413,13 +414,23 @@ uint32_t Scooby::predict(uint64_t base_address, uint64_t page, uint32_t offset, 
 	}
 	else
 	{
-		uint32_t state_index = state->value();
+		/*uint32_t state_index = state->value();
 		assert(state_index < knob::scooby_max_states);
 		action_index = brain->chooseAction(state_index);
 		if(knob::scooby_enable_state_action_stats)
 		{
 			update_stats(state_index, action_index, pref_degree);
+		}*/
+
+		// use neural network engine
+		float max_to_avg_q_ratio = 1.0;
+		action_index = brain_nn->chooseAction(state, max_to_avg_q_ratio);
+		if(knob::scooby_enable_state_action_stats)
+		{
+			update_stats(state, action_index, pref_degree);
 		}
+
+
 	}
 	assert(action_index < knob::scooby_max_actions);
 
@@ -782,7 +793,10 @@ void Scooby::train(Scooby_PTEntry *curr_evicted, Scooby_PTEntry *last_evicted)
 	}
 	else
 	{
-		brain->learn(last_evicted->state->value(), last_evicted->action_index, last_evicted->reward, curr_evicted->state->value(), curr_evicted->action_index);
+		//brain->learn(last_evicted->state->value(), last_evicted->action_index, last_evicted->reward, curr_evicted->state->value(), curr_evicted->action_index);
+		// neural network engine
+		brain_nn->learn(last_evicted->state, last_evicted->action_index, last_evicted->reward, curr_evicted->state);
+
 	}
 	MYLOG("train done");
 }

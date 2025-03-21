@@ -9,6 +9,9 @@
 #include "scooby_helper.h"
 #include "learning_engine_basic.h"
 #include "learning_engine_featurewise.h"
+/* neural network engine */
+#include "learning_engine_neural_network.h"
+
 
 using namespace std;
 
@@ -28,7 +31,7 @@ private:
 	LearningEngineFeaturewise *brain_featurewise;
 
 	// new learning engine based on neural network
-	NeuralNetworkEngine *brain_nn;
+	LearningEngineNeuralNetwork *brain_nn;
 
 	deque<Scooby_PTEntry*> prefetch_tracker;
 	Scooby_PTEntry *last_evicted_tracker;
