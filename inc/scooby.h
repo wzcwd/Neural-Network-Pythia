@@ -26,6 +26,10 @@ private:
 	deque<Scooby_STEntry*> signature_table;
 	LearningEngineBasic *brain;
 	LearningEngineFeaturewise *brain_featurewise;
+
+	// new learning engine based on neural network
+	NeuralNetworkEngine *brain_nn;
+
 	deque<Scooby_PTEntry*> prefetch_tracker;
 	Scooby_PTEntry *last_evicted_tracker;
 	uint8_t bw_level;

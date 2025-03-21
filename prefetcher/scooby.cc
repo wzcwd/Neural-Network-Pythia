@@ -165,8 +165,10 @@ Scooby::Scooby(string type) : Prefetcher(type)
 	/* init learning engine */
 	brain_featurewise = NULL;
 	brain = NULL;
+	// neural network engine
+	brain_nn = NULL;
 
-	if(knob::scooby_enable_featurewise_engine)
+	if(knob::scooby_enable_featurewise_engine) // if false, use neural-network engine
 	{
 		brain_featurewise = new LearningEngineFeaturewise(this,
 														knob::scooby_alpha, knob::scooby_gamma, knob::scooby_epsilon,
@@ -178,7 +180,7 @@ Scooby::Scooby(string type) : Prefetcher(type)
 	}
 	else
 	{
-		brain = new LearningEngineBasic( this,
+		/*brain = new LearningEngineBasic( this,
 									knob::scooby_alpha, knob::scooby_gamma, knob::scooby_epsilon,
 									knob::scooby_max_actions,
 									knob::scooby_max_states,
@@ -186,7 +188,9 @@ Scooby::Scooby(string type) : Prefetcher(type)
 									knob::scooby_policy,
 									knob::scooby_learning_type,
 									knob::scooby_brain_zero_init,
-									knob::scooby_early_exploration_window);
+									knob::scooby_early_exploration_window);*/
+		// use neural network engine
+		brain_nn = new LearningEngineNeuralNetwork(knob::scooby_alpha, knob::scooby_gamma, knob::scooby_epsilon);
 	}
 
 	bw_level = 0;

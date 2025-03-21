@@ -8,8 +8,8 @@ inc = inc
 
 debug = 1
 
-CFlags = -Wall -O3 -std=c++11 -D_DEFAULT_SOURCE -I./libbf/
-LDFlags = ./libbf/build/lib/libbf.a
+CFlags = -Wall -O3 -std=c++11 -D_DEFAULT_SOURCE -I./libbf/ -I./libtouch/include/ -I/libtorch/include/torch/csrc/api/include
+LDFlags = ./libbf/build/lib/libbf.a -L./libtorch/lib -ltorch -lc10
 libs =
 libDir =
 
