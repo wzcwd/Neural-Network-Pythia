@@ -23,3 +23,6 @@ libbf/
 
 # LibTorch（PyTorch C++ API）
 libtorch/
+
+# Executable for test case
+build/

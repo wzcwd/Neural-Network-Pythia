@@ -25,13 +25,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b12a9f0b-827b-4438-8202-24954545a272" name="Changes" comment="edit makefile: config libtorch; add a neural network learning engine">
-      <change afterPath="$PROJECT_DIR$/inc/learning_engine_neural_network.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inc/scooby.h" beforeDir="false" afterPath="$PROJECT_DIR$/inc/scooby.h" afterDir="false" />
+    <list default="true" id="b12a9f0b-827b-4438-8202-24954545a272" name="Changes" comment="add code in learning_engine_neural_network.cc and learning_engine_neural_network.h">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libbf/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/libbf/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libbf/src/bitvector.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/libbf/src/bitvector.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prefetcher/scooby.cc" beforeDir="false" afterPath="$PROJECT_DIR$/prefetcher/scooby.cc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/learning_engine_neural_network.cc" beforeDir="false" afterPath="$PROJECT_DIR$/src/learning_engine_neural_network.cc" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,6 +92,9 @@
       </map>
     </option>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
     <option name="majorVersion" value="2025" />
@@ -109,28 +109,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;SHELLCHECK.PATH&quot;: &quot;I do mind&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;zhichao&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/wzc/project/Pythia/Makefile&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.RadMigrateCodeStyle": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "SHELLCHECK.PATH": "I do mind",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "zhichao",
+    "last_opened_file_path": "/home/wzc/project/Pythia/Makefile",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RdControllerToolWindowsLayoutState" isNewUi="true">
     <layout>
       <window_info id="Bookmarks" side_tool="true" />
@@ -139,7 +140,7 @@
       <window_info id="Pull Requests" />
       <window_info id="Learn" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16035715" />
-      <window_info id="Commit" order="1" weight="0.19894366" />
+      <window_info id="Commit" order="1" weight="0.16035715" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" />
       <window_info anchor="bottom" id="TypeScript" />
@@ -150,7 +151,7 @@
       <window_info anchor="bottom" id="clangd" />
       <window_info anchor="bottom" id="Version Control" order="0" weight="0.38023955" />
       <window_info anchor="bottom" id="Problems" order="1" />
-      <window_info active="true" anchor="bottom" id="Problems View" order="2" visible="true" />
+      <window_info anchor="bottom" id="Problems View" order="2" weight="0.3297143" />
       <window_info anchor="bottom" id="Terminal" order="3" weight="0.18622755" />
       <window_info anchor="bottom" id="Services" order="4" weight="0.37017542" />
       <window_info anchor="bottom" id="CMake" order="5" />
@@ -224,7 +225,7 @@
       <workItem from="1742545407367" duration="144000" />
       <workItem from="1742545576459" duration="7554000" />
       <workItem from="1742553159505" duration="1283000" />
-      <workItem from="1742590824540" duration="6195000" />
+      <workItem from="1742590824540" duration="7997000" />
     </task>
     <task id="LOCAL-00001" summary="add two files for implementation: proposed prefetcher and its ini file">
       <option name="closed" value="true" />
@@ -274,7 +275,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742542477031</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="add code in learning_engine_neural_network.cc and learning_engine_neural_network.h">
+      <option name="closed" value="true" />
+      <created>1742598001950</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1742598001950</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -308,7 +317,8 @@
     <MESSAGE value="new update: add the head file for proposed model" />
     <MESSAGE value="new update: back to initial commoit because of error" />
     <MESSAGE value="edit makefile: config libtorch; add a neural network learning engine" />
-    <option name="LAST_COMMIT_MESSAGE" value="edit makefile: config libtorch; add a neural network learning engine" />
+    <MESSAGE value="add code in learning_engine_neural_network.cc and learning_engine_neural_network.h" />
+    <option name="LAST_COMMIT_MESSAGE" value="add code in learning_engine_neural_network.cc and learning_engine_neural_network.h" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
