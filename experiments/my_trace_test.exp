@@ -20,13 +20,14 @@ BINGO = --l2c_prefetcher_types=bingo --config=$(PYTHIA_HOME)/config/bingo.ini
 DSPATCH = --l2c_prefetcher_types=dspatch --config=$(PYTHIA_HOME)/config/dspatch.ini
 SPP_PPF_DEV = --l2c_prefetcher_types=spp_ppf_dev --config=$(PYTHIA_HOME)/config/spp_ppf_dev.ini
 PYTHIA = --l2c_prefetcher_types=scooby --config=$(PYTHIA_HOME)/config/pythia.ini
+PYTHIA_NN = --l2c_prefetcher_types=scooby --config=$(PYTHIA_HOME)/config/pythia_nn.ini
 
 # experiments for Figure 10(a) and Figure 8
 nopref			    $(BASE) $(NOPREF)
-# spp                         $(BASE) $(SPP_DEV2)
-# bingo		            $(BASE) $(BINGO)
+# spp               $(BASE) $(SPP_DEV2)
+# bingo		        $(BASE) $(BINGO)
 # mlop			    $(BASE) $(MLOP)
-# dspatch                     $(BASE) $(DSPATCH)
-# ppf                         $(BASE) $(SPP_PPF_DEV)
+# dspatch           $(BASE) $(DSPATCH)
+# ppf               $(BASE) $(SPP_PPF_DEV)
 pythia			    $(BASE) $(PYTHIA)
-
+nnp                 $(BASE) $(PYTHIA_NN)

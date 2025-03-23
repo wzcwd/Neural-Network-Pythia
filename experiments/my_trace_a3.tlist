@@ -45,5 +45,3 @@ KNOBS=
 NAME=654.roms_s-293B
 TRACE=$(PYTHIA_HOME)/traces/654.roms_s-293B.champsimtrace.xz
 KNOBS=
-
-
