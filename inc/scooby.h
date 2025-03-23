@@ -9,6 +9,8 @@
 #include "scooby_helper.h"
 #include "learning_engine_basic.h"
 #include "learning_engine_featurewise.h"
+// #include "learning_engine_dqn.h"
+#include "learning_engine_double_q.h"
 
 using namespace std;
 
@@ -26,6 +28,10 @@ private:
 	deque<Scooby_STEntry*> signature_table;
 	LearningEngineBasic *brain;
 	LearningEngineFeaturewise *brain_featurewise;
+
+	// new learning engine based on deep q learning
+	LearningEngineDoubleQ *brain_dqn;
+
 	deque<Scooby_PTEntry*> prefetch_tracker;
 	Scooby_PTEntry *last_evicted_tracker;
 	uint8_t bw_level;

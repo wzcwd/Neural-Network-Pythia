@@ -165,8 +165,10 @@ Scooby::Scooby(string type) : Prefetcher(type)
 	/* init learning engine */
 	brain_featurewise = NULL;
 	brain = NULL;
+	// new learning engine based on deep q learning
+	brain_dqn = NULL; 
 
-	if(knob::scooby_enable_featurewise_engine)
+	if(knob::scooby_enable_featurewise_engine) 
 	{
 		brain_featurewise = new LearningEngineFeaturewise(this,
 														knob::scooby_alpha, knob::scooby_gamma, knob::scooby_epsilon,
@@ -178,6 +180,8 @@ Scooby::Scooby(string type) : Prefetcher(type)
 	}
 	else
 	{
+		//if scooby_enable_featurewise_engine=false, use double q learning engine
+		/*注释掉之前的代码
 		brain = new LearningEngineBasic( this,
 									knob::scooby_alpha, knob::scooby_gamma, knob::scooby_epsilon,
 									knob::scooby_max_actions,
@@ -187,6 +191,9 @@ Scooby::Scooby(string type) : Prefetcher(type)
 									knob::scooby_learning_type,
 									knob::scooby_brain_zero_init,
 									knob::scooby_early_exploration_window);
+									*/
+		/*using double q learning engine*/
+		brain_dqn = new LearningEngineDoubleQ(knob::scooby_alpha, knob::scooby_gamma, knob::scooby_epsilon);
 	}
 
 	bw_level = 0;
@@ -197,6 +204,7 @@ Scooby::~Scooby()
 {
 	if(brain_featurewise) delete brain_featurewise;
 	if(brain) 		delete brain;
+	if(brain_dqn) delete brain_dqn;
 }
 
 void Scooby::print_config()
@@ -416,7 +424,21 @@ uint32_t Scooby::predict(uint64_t base_address, uint64_t page, uint32_t offset, 
 		{
 			update_stats(state_index, action_index, pref_degree);
 		}
+	
+	//use double q learning engine
+
+		float max_to_avg_q_ratio = 1.0f;
+		uint32_t action_index = brain_dqn->chooseAction(state, max_to_avg_q_ratio);
+
+		// 如果需要记录统计信息
+		if (knob::scooby_enable_state_action_stats) 
+		{
+			update_stats(state, action_index, pref_degree);
+		}
+
 	}
+	
+
 	assert(action_index < knob::scooby_max_actions);
 
 	MYLOG("act_idx %u act %d", action_index, Actions[action_index]);
@@ -778,7 +800,10 @@ void Scooby::train(Scooby_PTEntry *curr_evicted, Scooby_PTEntry *last_evicted)
 	}
 	else
 	{
-		brain->learn(last_evicted->state->value(), last_evicted->action_index, last_evicted->reward, curr_evicted->state->value(), curr_evicted->action_index);
+		//不用这个
+		//brain->learn(last_evicted->state->value(), last_evicted->action_index, last_evicted->reward, curr_evicted->state->value(), curr_evicted->action_index);
+		// use double q learning engine
+		brain_dqn->learn(last_evicted->state, last_evicted->action_index, last_evicted->reward, curr_evicted->state);
 	}
 	MYLOG("train done");
 }

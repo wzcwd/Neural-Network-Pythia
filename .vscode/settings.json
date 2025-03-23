@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "new": "cpp",
+        "__node_handle": "cpp",
+        "memory": "cpp",
+        "unordered_map": "cpp"
+    }
+}

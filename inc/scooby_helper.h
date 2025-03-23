@@ -203,4 +203,3 @@ string print_active_features(vector<int32_t> active_features);
 string print_active_features2(vector<int32_t> active_features);
 
 #endif /* SCOOBY_HELPER_H */
-
