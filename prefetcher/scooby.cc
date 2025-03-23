@@ -155,6 +155,7 @@ void Scooby::init_stats()
 
 Scooby::Scooby(string type) : Prefetcher(type)
 {
+	std::cout << "=== Hello from terminal ===" << std::endl;
 	init_knobs();
 	init_stats();
 
@@ -191,6 +192,7 @@ Scooby::Scooby(string type) : Prefetcher(type)
 									knob::scooby_early_exploration_window);*/
 		// use neural network engine
 		brain_nn = new LearningEngineNeuralNetwork(knob::scooby_alpha, knob::scooby_gamma, knob::scooby_epsilon);
+		std::cout << "=== Hello from terminal ===" << std::endl;
 	}
 
 	bw_level = 0;
@@ -201,7 +203,7 @@ Scooby::~Scooby()
 {
 	if(brain_featurewise) delete brain_featurewise;
 	if(brain) 		delete brain;
-	if (brain_nn) delete brain_nn;
+	if(brain_nn) delete brain_nn;
 }
 
 void Scooby::print_config()

@@ -7,13 +7,16 @@
 #include <cassert>
 #include <stdint.h>
 
+// for log
+#include <fstream>
+
 using namespace std;
 
 // define constant, subject to change based on demand
 #define DELTA_BITS 7
 
 //  Jenkins hash function(get from original approach)
-uint32_t jenkins(uint32_t key)
+uint32_t jenkins_nn(uint32_t key)
 {
     key += (key << 12);
     key ^= (key >> 22);
@@ -27,7 +30,7 @@ uint32_t jenkins(uint32_t key)
 }
 
 //  folded_xor hash function(get from original approach)
-uint32_t folded_xor(uint64_t value, uint32_t num_folds)
+uint32_t folded_xor_nn(uint64_t value, uint32_t num_folds)
 {
     assert(num_folds > 1);
     assert((num_folds & (num_folds-1)) == 0);
@@ -57,8 +60,8 @@ uint32_t process_PC_delta(uint64_t pc, int32_t delta)
     uint64_t tmp = pc;
     tmp = tmp << 7;
     tmp += unsigned_delta;
-    uint32_t raw_index = folded_xor(tmp, 2);
-    uint32_t hashed_index = jenkins(raw_index);
+    uint32_t raw_index = folded_xor_nn(tmp, 2);
+    uint32_t hashed_index = jenkins_nn(raw_index);
     return (hashed_index);
 }
 
@@ -78,8 +81,8 @@ torch::Tensor QNetworkImpl::forward(torch::Tensor x)
 
 // LearningEngineNeuralNetwork constructor
 LearningEngineNeuralNetwork::LearningEngineNeuralNetwork(float alpha, float gamma, float epsilon)
-    : qnetwork(QNetwork(2, 64, 16)),
-      target_network(QNetwork(2, 64, 16)),
+    : qnetwork(QNetwork(2, 128, 16)),
+      target_network(QNetwork(2, 128, 16)),
       optimizer(qnetwork->parameters(), torch::optim::AdamOptions(alpha)),
       gamma(gamma), alpha(alpha), epsilon(epsilon),
       learn_step_counter(0)
@@ -89,6 +92,7 @@ LearningEngineNeuralNetwork::LearningEngineNeuralNetwork(float alpha, float gamm
         target_network->named_parameters()[item.key()].copy_(item.value());
     }
     target_network->eval();
+    std::cout << "[DEBUG] LearningEngineNeuralNetwork_double constructed." << std::endl;
 }
 
 // Action selection (ε-greedy strategy)
@@ -147,16 +151,12 @@ void LearningEngineNeuralNetwork::learn(const State* state, uint32_t action, int
     optimizer.zero_grad();
     loss.backward();
     optimizer.step();
-
+    std::cout << "[DEBUG] learn() called"  << std::endl;
     learn_step_counter++;
     if (learn_step_counter % 100 == 0) {
-        for (const auto& item : qnetwork->named_parameters()) {
+            for (const auto& item : qnetwork->named_parameters()) {
             target_network->named_parameters()[item.key()].copy_(item.value());
         }
     }
 
 }
-
-
-
-

@@ -1,7 +1,3 @@
 Trace,Exp,Core_0_IPC,Core_0_LLC_total_miss,Core_0_LLC_load_miss,Core_0_LLC_RFO_miss,Core_0_LLC_writeback_miss,Filter
-streaming_phase0_core1,nopref,0.2458,855785,681263,116381,58141,1
-streaming_phase0_core1,pythia,0.26054,996282,210118,119650,43987,1
-streaming_phase0_core1,nnp,0.25967,933844,229303,117387,53142,1
-628.pop2_s-17B,nopref,0.95718,2132399,1054946,648557,428896,1
-628.pop2_s-17B,pythia,1.14381,2188251,57099,648679,409472,1
-628.pop2_s-17B,nnp,1.07519,2162985,173922,646123,425599,1
+streaming_phase0_core1,nnp,0,0,0,0,0,0
+628.pop2_s-17B,nnp,0,0,0,0,0,0

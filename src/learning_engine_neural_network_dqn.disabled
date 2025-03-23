@@ -1,4 +1,4 @@
-#include "learning_engine_neural_network.h"
+#include "learning_engine_neural_network_dqn.h"
 #include "scooby.h"
 
 #include <torch/torch.h>
@@ -13,7 +13,7 @@ using namespace std;
 #define DELTA_BITS 7
 
 //  Jenkins hash function(get from original approach)
-uint32_t jenkins(uint32_t key)
+uint32_t jenkins_nn(uint32_t key)
 {
     key += (key << 12);
     key ^= (key >> 22);
@@ -27,7 +27,7 @@ uint32_t jenkins(uint32_t key)
 }
 
 //  folded_xor hash function(get from original approach)
-uint32_t folded_xor(uint64_t value, uint32_t num_folds)
+uint32_t folded_xor_nn(uint64_t value, uint32_t num_folds)
 {
     assert(num_folds > 1);
     assert((num_folds & (num_folds-1)) == 0);
