@@ -33,10 +33,12 @@ public:
 
 private:
     QNetwork qnetwork;              // The defined q-network
+    QNetwork target_network;        // Target network for Double DQN
     torch::optim::Adam optimizer;   // Optimizer: Adjust the parameters (weights and biases) of the neural network based on the result of the loss function to make the model perform better.
     float gamma;    // Discount factor
     float alpha;
     float epsilon;  // Exploration rate in ε-greedy strategy
+    int learn_step_counter;         // Learning step counter for periodic target network update 
 };
 
 

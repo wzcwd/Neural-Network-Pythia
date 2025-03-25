@@ -155,7 +155,6 @@ void Scooby::init_stats()
 
 Scooby::Scooby(string type) : Prefetcher(type)
 {
-	std::cout << "=== Hello from terminal ===" << std::endl;
 	init_knobs();
 	init_stats();
 
@@ -191,8 +190,8 @@ Scooby::Scooby(string type) : Prefetcher(type)
 									knob::scooby_brain_zero_init,
 									knob::scooby_early_exploration_window);*/
 		// use neural network engine
+		std::cout << "=== use neural network engine ===" << std::endl;
 		brain_nn = new LearningEngineNeuralNetwork(knob::scooby_alpha, knob::scooby_gamma, knob::scooby_epsilon);
-		std::cout << "=== Hello from terminal ===" << std::endl;
 	}
 
 	bw_level = 0;

@@ -7,9 +7,6 @@
 #include <cassert>
 #include <stdint.h>
 
-// for log
-#include <fstream>
-
 using namespace std;
 
 // define constant, subject to change based on demand
@@ -81,18 +78,11 @@ torch::Tensor QNetworkImpl::forward(torch::Tensor x)
 
 // LearningEngineNeuralNetwork constructor
 LearningEngineNeuralNetwork::LearningEngineNeuralNetwork(float alpha, float gamma, float epsilon)
-    : qnetwork(QNetwork(2, 128, 16)),
-      target_network(QNetwork(2, 128, 16)),
+    : qnetwork(QNetwork(2, 8, 16)),
       optimizer(qnetwork->parameters(), torch::optim::AdamOptions(alpha)),
-      gamma(gamma), alpha(alpha), epsilon(epsilon),
-      learn_step_counter(0)
+      gamma(gamma), alpha(alpha), epsilon(epsilon)
 {
     srand((unsigned)time(NULL));
-    for (const auto& item : qnetwork->named_parameters()) {
-        target_network->named_parameters()[item.key()].copy_(item.value());
-    }
-    target_network->eval();
-    std::cout << "[DEBUG] LearningEngineNeuralNetwork_double constructed." << std::endl;
 }
 
 // Action selection (ε-greedy strategy)
@@ -123,7 +113,7 @@ uint32_t LearningEngineNeuralNetwork::chooseAction(const State* state, float &ma
 
 
 
-// Network update (double-q learning style)
+// Network update (DQN style)
 void LearningEngineNeuralNetwork::learn(const State* state, uint32_t action, int32_t reward, const State* next_state)
 {
     float f1 = static_cast<float>(state->local_delta_sig2);
@@ -135,13 +125,10 @@ void LearningEngineNeuralNetwork::learn(const State* state, uint32_t action, int
     torch::Tensor next_tensor = torch::tensor({next_f1, next_f2}).unsqueeze(0);
 
     torch::Tensor q_values = qnetwork->forward(state_tensor);
-    torch::Tensor next_q_main = qnetwork->forward(next_tensor);
-    int best_action = next_q_main.argmax(1).item<int>();
-
-    torch::Tensor next_q_target = target_network->forward(next_tensor);
-    float next_q = next_q_target[0][best_action].item<float>();
-    float target_value = reward + gamma * next_q;
-
+    torch::Tensor next_q_values = qnetwork->forward(next_tensor);
+    auto max_result = next_q_values.max(1);
+    float next_max = std::get<0>(max_result).item<float>();
+    float target_value = reward + gamma * next_max;
 
     torch::Tensor current_q = q_values[0][action];
     torch::Tensor target = torch::tensor(target_value);
@@ -151,12 +138,8 @@ void LearningEngineNeuralNetwork::learn(const State* state, uint32_t action, int
     optimizer.zero_grad();
     loss.backward();
     optimizer.step();
-    std::cout << "[DEBUG] learn() called"  << std::endl;
-    learn_step_counter++;
-    if (learn_step_counter % 100 == 0) {
-            for (const auto& item : qnetwork->named_parameters()) {
-            target_network->named_parameters()[item.key()].copy_(item.value());
-        }
-    }
-
 }
+
+
+
+
