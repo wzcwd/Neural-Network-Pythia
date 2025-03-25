@@ -1,0 +1,47 @@
+NAME=cassandra_phase0_core0
+TRACE=$(PYTHIA_HOME)/traces/cassandra_phase0_core0.trace.xz
+KNOBS=--knob_cloudsuite=true --warmup_instructions=100000000 --simulation_instructions=150000000
+
+NAME=cloud9_phase5_core2
+TRACE=$(PYTHIA_HOME)/traces/cloud9_phase5_core2.trace.xz
+KNOBS=--knob_cloudsuite=true --warmup_instructions=100000000 --simulation_instructions=150000000
+
+NAME=nutch_phase0_core0
+TRACE=$(PYTHIA_HOME)/traces/nutch_phase0_core0.trace.xz
+KNOBS=--knob_cloudsuite=true --warmup_instructions=100000000 --simulation_instructions=150000000
+
+NAME=streaming_phase0_core1
+TRACE=$(PYTHIA_HOME)/traces/streaming_phase0_core1.trace.xz 
+KNOBS=--knob_cloudsuite=true --warmup_instructions=100000000 --simulation_instructions=150000000
+
+NAME=605.mcf_s-472B
+TRACE=$(PYTHIA_HOME)/traces/605.mcf_s-472B.champsimtrace.xz
+KNOBS=
+
+NAME=620.omnetpp_s-141B
+TRACE=$(PYTHIA_HOME)/traces/620.omnetpp_s-141B.champsimtrace.xz
+KNOBS=
+
+NAME=623.xalancbmk_s-10B
+TRACE=$(PYTHIA_HOME)/traces/623.xalancbmk_s-10B.champsimtrace.xz
+KNOBS=
+
+NAME=607.cactuBSSN_s-2421B
+TRACE=$(PYTHIA_HOME)/traces/607.cactuBSSN_s-2421B.champsimtrace.xz
+KNOBS=
+
+NAME=619.lbm_s-2676B
+TRACE=$(PYTHIA_HOME)/traces/619.lbm_s-2677B.champsimtrace.xz
+KNOBS=
+
+NAME=628.pop2_s-17B
+TRACE=$(PYTHIA_HOME)/traces/628.pop2_s-17B.champsimtrace.xz
+KNOBS=
+
+NAME=649.fotonik3d_s-1176B
+TRACE=$(PYTHIA_HOME)/traces/649.fotonik3d_s-1176B.champsimtrace.xz
+KNOBS=
+
+NAME=654.roms_s-293B
+TRACE=$(PYTHIA_HOME)/traces/654.roms_s-293B.champsimtrace.xz
+KNOBS=
