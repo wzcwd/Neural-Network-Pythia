@@ -1,7 +1,3 @@
-NAME=streaming_phase0_core1
-TRACE=$(PYTHIA_HOME)/traces/streaming_phase0_core1.trace.xz
-KNOBS=--knob_cloudsuite=true --warmup_instructions=100000000 --simulation_instructions=150000000
-
 NAME=628.pop2_s-17B
 TRACE=$(PYTHIA_HOME)/traces/628.pop2_s-17B.champsimtrace.xz
 KNOBS=

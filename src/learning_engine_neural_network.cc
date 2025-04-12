@@ -6,8 +6,23 @@
 #include <cstdlib>  // for rand()
 #include <cassert>
 #include <stdint.h>
+#include <deque>
+#include <random>
 
 using namespace std;
+
+struct Transition {
+    torch::Tensor state;
+    int action;
+    float reward;
+    torch::Tensor next_state;
+
+    Transition(torch::Tensor s, int a, float r, torch::Tensor ns)
+        : state(s), action(a), reward(r), next_state(ns) {}
+};
+
+std::deque<Transition> replay_buffer;
+const int REPLAY_BUFFER_SIZE = 10000;
 
 // define constant, subject to change based on demand
 #define DELTA_BITS 7
@@ -111,8 +126,6 @@ uint32_t LearningEngineNeuralNetwork::chooseAction(const State* state, float &ma
     return action;
 }
 
-
-
 // Network update (DQN style)
 void LearningEngineNeuralNetwork::learn(const State* state, uint32_t action, int32_t reward, const State* next_state)
 {
@@ -138,8 +151,6 @@ void LearningEngineNeuralNetwork::learn(const State* state, uint32_t action, int
     optimizer.zero_grad();
     loss.backward();
     optimizer.step();
+
+    replay_buffer.push_back(Transition(state_tensor, action, static_cast<float>(reward), next_tensor));
 }
-
-
-
-

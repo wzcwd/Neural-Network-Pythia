@@ -21,11 +21,11 @@ PYTHIA = --l2c_prefetcher_types=scooby --config=$(PYTHIA_HOME)/config/pythia.ini
 PYTHIA_NN = --l2c_prefetcher_types=scooby --config=$(PYTHIA_HOME)/config/pythia_nn.ini
 
 # experiments results
-# nopref			$(BASE) $(NOPREF)
-# spp               $(BASE) $(SPP_DEV2)
-# bingo		        $(BASE) $(BINGO)
-# mlop			    $(BASE) $(MLOP)
-# dspatch           $(BASE) $(DSPATCH)
-# ppf               $(BASE) $(SPP_PPF_DEV)
-# pythia			$(BASE) $(PYTHIA)
-nnp                 $(BASE) $(PYTHIA_NN)
+nopref             $(BASE) $(NOPREF)
+spp                $(BASE) $(SPP_DEV2)
+bingo		       $(BASE) $(BINGO)
+mlop			   $(BASE) $(MLOP)
+dspatch            $(BASE) $(DSPATCH)
+ppf                $(BASE) $(SPP_PPF_DEV)
+pythia             $(BASE) $(PYTHIA)
+nnp                $(BASE) $(PYTHIA_NN)

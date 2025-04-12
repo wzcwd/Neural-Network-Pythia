@@ -1,6 +1,6 @@
-# This is used to build the test for the learning_engine_neural_network
+# This is used to build a test case for the learning_engine_neural_network
 cmake_minimum_required(VERSION 3.10)  # Minimum required CMake version
-project(PythiaTest) # Define the project name
+project(Pythia_nn_Test) # Define the project name
 
 set(CMAKE_CXX_STANDARD 17)  # Use C++17 standard
 set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/libtorch")  # Path to LibTorch
