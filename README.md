@@ -1,20 +1,7 @@
-<p align="center">
-  <a href="https://github.com/CMU-SAFARI/Pythia">
-    <img src="logo.png" alt="Logo" width="424.8" height="120">
-  </a>
-  <h3 align="center">A Customizable Hardware Prefetching Framework Using Online Reinforcement Learning
-  </h3>
-</p>
 
-<p align="center">
-    <a href="https://github.com/CMU-SAFARI/Pythia/blob/master/LICENSE">
-        <img alt="GitHub" src="https://img.shields.io/badge/License-MIT-yellow.svg">
-    </a>
-    <a href="https://github.com/CMU-SAFARI/Pythia/releases">
-        <img alt="GitHub release" src="https://img.shields.io/github/release/CMU-SAFARI/Pythia">
-    </a>
-    <a href="https://doi.org/10.5281/zenodo.5520125"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5520125.svg" alt="DOI"></a>
-</p>
+  <h3 align="center">NNP: A Neural Network Approach to
+Cache Prefetching Based on Pythia
+  </h3>
 
 <!-- ## Update
 ### Aug 13th, 2021
@@ -24,6 +11,7 @@ It has been brought to our attention that the Ligra and PARSEC-2.1 traces requir
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#what-is-pythia">What is Pythia?</a></li>
+    <li><a href="#what-is-nnp">What is NNP?</a></li>
     <li><a href="#about-the-framework">About the Framework</a></li>
     <li><a href="#prerequisites">Prerequisites</a></li>
     <li><a href="#installation">Installation</a></li>
@@ -37,12 +25,8 @@ It has been brought to our attention that the Ligra and PARSEC-2.1 traces requir
         <li><a href="#rolling-up-statistics">Rolling up Statistics</a></li>
       </ul>
     </li>
-    <li><a href="#hdl-implementation">HDL Implementation</a></li>
     <li><a href="#code-walkthrough">Code Walkthrough</a></li>
     <li><a href="#citation">Citation</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
@@ -56,9 +40,16 @@ Pythia is presetend at MICRO 2021.
 
 > _Rahul Bera, Konstantinos Kanellopoulos, Anant V. Nori, Taha Shahroodi, Sreenivas Subramoney, Onur Mutlu, "[Pythia: A Customizable Hardware Prefetching Framework Using Online Reinforcement Learning](https://arxiv.org/pdf/2109.12021.pdf)", In Proceedings of the 54th Annual IEEE/ACM International Symposium on Microarchitecture (MICRO), 2021_
 
+This work is based on the original Pythia project, available at: 
+https://github.com/CMU-SAFARI/Pythia.git
+
+## What is NNP?
+NNP stands for Neural Network-based Pythia. It utilizes a lightweight shallow neural network to approximate the Q-function, eliminating the need for a table to store the Q-values.
+Traditional tabular methods(SARSA algorithm) used in Pythia struggle when the state-action space becomes large or continuous. Moreover, the size of the Q-table increases exponentially with the number of states and actions, resulting in high storage overhead. By replacing the Q-table with a shallow neural network, this work achieves a 90% reduction in storage overhead.
+
 ## About The Framework
 
-Pythia is implemented in [ChampSim simulator](https://github.com/ChampSim/ChampSim). We have significantly modified the prefetcher integration pipeline in ChampSim to add support to a wide range of prior prefetching proposals mentioned below:
+Pythia is implemented in [ChampSim simulator](https://github.com/ChampSim/ChampSim). The original project have significantly modified the prefetcher integration pipeline in ChampSim to add support to a wide range of prior prefetching proposals mentioned below:
 
 * Stride [Fu+, MICRO'92]
 * Streamer [Chen and Baer, IEEE TC'95]
@@ -82,6 +73,7 @@ The infrastructure has been tested with the following system configuration:
   * CMake v3.20.2
   * md5sum v8.26
   * Perl v5.24.1
+  * LibTorch(PyTorch C++ API) v2.7.0.dev20250131+cpu
 
 ## Installation
 
@@ -92,7 +84,7 @@ The infrastructure has been tested with the following system configuration:
 1. Clone the GitHub repo
    
    ```bash
-   git clone https://github.com/CMU-SAFARI/Pythia.git
+   git clone https://github.com/wzcwd/Neural-Network-Pythia.git
    ```
 2. Clone the bloomfilter library inside Pythia home directory
    
@@ -108,7 +100,18 @@ The infrastructure has been tested with the following system configuration:
     cmake ../
     make clean && make
     ```
-4. Build Pythia for single/multi core using build script. This should create the executable inside `bin` directory.
+4. Download LibTorch inside Pythia home directory, it should give you libtorch-shared-with-deps-latest.zip
+   
+   ```bash
+   cd Pythia
+   wget https://download.pytorch.org/libtorch/nightly/cpu/libtorch-shared-with-deps-latest.zip
+   ```
+5. Uzip libtorch-shared-with-deps-latest.zip, it should give you a `libtorch` directory inside Pythia home directory
+   
+   ```bash
+   unzip libtorch-shared-with-deps-latest.zip
+   ```
+6. Build Pythia for single/multi core using build script. This should create the executable inside `bin` directory.
    
    ```bash
    cd $PYTHIA_HOME
@@ -117,10 +120,11 @@ The infrastructure has been tested with the following system configuration:
    ```
    Please use `build_champsim_highcore.sh` to build ChampSim for more than four cores.
 
-5. _Set appropriate environment variables as follows:_
+7. _Set appropriate environment variables as follows:_
 
     ```bash
     source setvars.sh
+    export LD_LIBRARY_PATH=$PYTHIA_HOME/libtorch/lib:$LD_LIBRARY_PATH
     ```
 
 ## Preparing Traces
@@ -168,12 +172,16 @@ Our experimental workflow consists of two stages: (1) launching experiments, and
    
       ```bash
       cd $PYTHIA_HOME/experiments/
-      perl ../scripts/create_jobfile.pl --exe $PYTHIA_HOME/bin/perceptron-multi-multi-no-ship-1core --tlist MICRO21_1C.tlist --exp MICRO21_1C.exp --local 1 > jobfile.sh
+      perl ../scripts/create_jobfile.pl
+      --exe $PYTHIA_HOME/bin/perceptron-multi-multi-no-ship-1core
+      --tlist nnp_1C.tlist
+      --exp nnp_1C.exp
+      --local 1 > jobfile.sh
       ```
 
 4. Go to a run directory (or create one) inside `experiements` to launch runs in the following way:
       ```bash
-      cd experiments_1C
+      cd nnp_experiments_1C
       source ../jobfile.sh
       ```
 
@@ -188,32 +196,26 @@ Our experimental workflow consists of two stages: (1) launching experiments, and
 3. Rollup statistics as follows. _Please make sure the paths used in tlist and exp files are appropriate_.
    
       ```bash
-      cd experiements_1C/
-      perl ../../scripts/rollup.pl --tlist ../MICRO21_1C.tlist --exp ../MICRO21_1C.exp --mfile ../rollup_1C_base_config.mfile > rollup.csv
+      cd nnp_experiments_1C
+      perl ../../scripts/rollup.pl
+      --tlist ../nnp_1C.tlist
+      --exp ../nnp_1C.exp
+      --mfile ../rollup_1C_base_config.mfile > rollup.csv
       ```
 
 4. Export the `rollup.csv` file in you favourite data processor (Python Pandas, Excel, Numbers, etc.) to gain insights.
-
-## HDL Implementation
-We also implement Pythia in [Chisel HDL](https://www.chisel-lang.org) to faithfully measure the area and power cost. The implementation, along with the reports from umcL65 library, can be found the following GitHub repo. Please note that the area and power projections in the sample report is different than what is reported in the paper due to different technology.
-
-<p align="center">
-<a href="https://github.com/CMU-SAFARI/Pythia-HDL">Pythia-HDL</a>
-    <a href="https://github.com/CMU-SAFARI/Pythia-HDL">
-        <img alt="Build" src="https://github.com/CMU-SAFARI/Pythia-HDL/actions/workflows/test.yml/badge.svg">
-    </a>
-</p>
 
 ## Code Walkthrough
 > Pythia was code-named Scooby (the mistery-solving dog) during the developement. So any mention of Scooby anywhere in the code inadvertently means Pythia.
 
 * The top-level files for Pythia are `prefetchers/scooby.cc` and `inc/scooby.h`. These two files declare and define the high-level functions for Pythia (e.g., `invoke_prefetcher`, `register_fill`, etc.). 
 * The released version of Pythia has two types of RL engine defined: _basic_ and _featurewise_. They differ only in terms of the QVStore organization (please refer to our [paper](arxiv.org/pdf/2109.12021.pdf) to know more about QVStore). The QVStore for _basic_ version is simply defined as a two-dimensional table, whereas the _featurewise_ version defines it as a hierarchichal organization of multiple small tables. The implementation of respective engines can be found in `src/` and `inc/` directories.
+* This project creates a novel RL engine in src directory: learning_engine_neural_network.cc, For each demand request, this learning engineuses extracted features and state to select the action with the highest Q-value output by the neural network for prefetching. The basic configuration has a single hidden layer network with 8 neurons, 2 features, 16 actions.
 * `inc/feature_knowledge.h` and `src/feature_knowldege.cc` define how to compute each program feature from the raw attributes of a deamand request. If you want to define your own feature, extend the enum `FeatureType` in `inc/feature_knowledge.h` and define its corresponding `process` function.
 * `inc/util.h` and `src/util.cc` contain all hashing functions used in our evaluation. Play around with them, as a better hash function can also provide performance benefits.
 
 ## Citation
-If you use this framework, please cite the following paper:
+If you use this framework, please cite the original paper:
 ```
 @inproceedings{bera2021,
   author = {Bera, Rahul and Kanellopoulos, Konstantinos and Nori, Anant V. and Shahroodi, Taha and Subramoney, Sreenivas and Mutlu, Onur},
@@ -222,14 +224,3 @@ If you use this framework, please cite the following paper:
   year = {2021}
 }
 ```
-
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-## Contact
-
-Rahul Bera - write2bera@gmail.com
-
-## Acknowledgements
-We acklowledge support from SAFARI Research Group's industrial partners.
